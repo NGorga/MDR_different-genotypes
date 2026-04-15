@@ -1,0 +1,379 @@
+\documentclass{report}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{chngcntr}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+\usepackage[hidelinks, bookmarks=true]{hyperref}
+\usepackage{booktabs}
+\usepackage{tikz-cd}
+\usepackage{diagbox} 
+\usepackage{caption}
+\usepackage{graphicx}
+
+%Formatting
+\usepackage{newtxtext,newtxmath}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+
+\begin{document}
+
+\title{High risk fungicides in mixtures:\\
+\large strains with different resistance genotypes}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\newpage
+
+\chapter{Model formulation and parameterization}
+\section{ODE system}
+\begin{align}
+    \frac{dH}{dt} &= r_H ( K - H - I_{ab} - I_{Ab} - I_{aB} - I_{AB})-b_{ab} I_{ab} H - b_{Ab} I_{Ab} H - b_{aB} I_{aB} H - b_{AB} I_{AB} H \label{eq:1}\\
+    \frac{dI_{ab}}{dt} &= (1 - 2m)b_{ab} I_{ab} H   + mb_{Ab} I_{Ab} H + mb_{aB} I_{aB} H- \mu I_{ab} \label{eq:2}\\
+    \frac{dI_{Ab}}{dt} &= mb_{ab} I_{ab} H   + (1-2m)b_{Ab} I_{Ab} H + mb_{AB} I_{AB} H - \mu I_{Ab} \label{eq:3}\\
+    \frac{dI_{aB}}{dt} &= mb_{ab} I_{ab} H   + (1-2m)b_{aB} I_{aB} H + mb_{AB} I_{AB} H - \mu I_{aB} \label{eq:4}\\
+    \frac{dI_{AB}}{dt} &= mb_{Ab} I_{Ab} H  + mb_{aB} I_{aB} H + (1-2m)b_{AB} I_{AB} H - \mu I_{AB} \label{eq:5}  
+\end{align} 
+
+\section{Parameters}
+\subsection{Strain genotypes and transmission rate indexes}
+
+\begin{center}
+    \label{tab:strain genotypes}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Parameter} & \textbf{Description}\\
+        \midrule
+        $H$      & Healthy host\\
+        $I_{ab}$ & Sensitive strain to both fungicides\\
+        $I_{Ab}$ & Resistant to Fungicide 1 (DeMethylation Inhibitors, DMIs)\\
+        $I_{aB}$ & Resistant to Fungicide 2 (Succinate Dehydrogenase Inhibitors, SDHIs)\\
+        $I_{AB}$ & Resistant to both Fungicide A and B\\
+        \midrule
+        $b_{ab}$ & Transmission rate of $I_{ab}$\\
+        $b_{Ab}$ & Transmission rate of $I_{Ab}$\\
+        $b_{aB}$ & Transmission rate of $I_{aB}$\\
+        $b_{AB}$ & Transmission rate of $I_{AB}$\\
+        \bottomrule
+    \end{tabular}
+\end{center}
+
+\subsection{fixed parameters}
+\begin{center}
+    \begin{tabular}{lll}
+        \toprule
+        \textbf{Parameter} & \textbf{value} & \textbf{Description}\\
+        \midrule
+        $\kappa_1$   & 0.5                   & Maximum efficacy of fungicide 1 \\
+        $\kappa_2$   & 0.5                   & Maximum efficacy of fungicide 2 \\
+        $C_{50,1}$   & 1.0                   & Half saturation dose of fungicide 1 \\
+        $C_{50,2}$   & 1.0                   & Half saturation dose of fungicide 2\\
+        $C_{total}$. & 2.0                   & total dose of both fungicides\\
+        $\alpha_{1}$     & 0                 & Degree of resistance to Fungicide 1 \\
+        $\alpha_{2}$     & 0                 & Degree of resistance to Fungicide 2\\ 
+        $K$          & 1                     & Carrying capacity (normalized) \\
+        $\beta$      & 0.2                   & Baseline transmission rate \\
+        $\mu$        & 0.1                   & Removal rate of infection \\
+        $r_H$        & 0.1                   & Host tissue growth rate \\
+        $\rho$     & 0.05                    & Baseline fitness cost of resistance \\
+        $m$          & $3.2\times10^{-10}$   & Spontaneous mutation rate \\
+        \midrule
+        \multicolumn{3}{c}{$\rho_1$ = $\rho_2$ = $\rho$}\\
+        \bottomrule
+    \end{tabular}
+\end{center}
+While $\alpha_{1}$ and $\alpha_{2}$  are set as 0, throughout simulating different scenarios, particularly partial resistance $\alpha_{1}$ = $\alpha_{2}$ = 0.5
+
+\subsection{Transmission rates, fungicide efficacy and fitness cost}
+
+In this study, transmission rates for sensitive and resistance strain genotypes are calculated by splitting total dosage among
+DeMethylation Inhibitor fungicide 1 and Succinate Dehydrogenase Inhibitor fungicide 2\\
+\textit{\textbf{In this case, total mixture (C) consists of 50:50 mix of both fungicides}}\\
+Dehydrogenase Inhibitor fungicide 2's proportion in total mixture is represented as $r_2$, thus:\\
+\begin{center}
+    Fungicide B = C$r_2$\\
+    Fungicide A = C(1-$r_2$)\\
+    C = C$r_2$ + C(1-$r_2$)\\
+\end{center}
+Fungicides are assumed to have independent action, therefore their efficacies on sensitive and resistant strain genotypes
+are independent and can be calculated using the Bliss independece:
+\begin{equation}
+  \varepsilon_{\text{total}} = \varepsilon_1 + \varepsilon_2 - \varepsilon_1 \varepsilon_2
+  \label{eq:epsilon_total}
+\end{equation}
+Efficacies of each fungicide on each strain can be calculated using the formula, which depicts Hills dose-response curve:
+\begin{center}
+    $\varepsilon$ =$\frac{K \times C_dose}{C_{50}+C_dose}$
+\end{center}
+From the parameters table \ref{tab:strain genotypes} \textit{Strain genotypes and transmission rate indexes} , we have four pathogen strains with different degrees of sensitivity/resistance towards different fungicides. Therefore, their transmission rates differ significantly.\\
+From the \textit{bliss independence equation} \ref{eq:epsilon_total}, pathogens that survive both fungicides equals to \[1-(\varepsilon_1 + \varepsilon_2 - \varepsilon_1 \varepsilon_2)\] which is same as \[(1-\varepsilon_1)(1-\varepsilon_2)\]
+Finally, transmission rates considering both fungicide efficacy at full resistance and fitness costs for different pathogen genotypes is as follows\\
+\begin{align}
+    b_{ab}=\beta(1-\varepsilon_1)(1-\varepsilon_2)\\
+    b_{Ab}=\beta(1-\rho_1)(1-\varepsilon_2)\\
+    b_{aB}=\beta(1-\varepsilon_1)(1-\rho_2)\\
+    b_{AB}=\beta(1-\rho_1)(1-\rho_2)
+\end{align}
+As a result, numerical solutions are as follows
+\begin{center}
+    \label{tab:transmission rates}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Parameter} & \textbf{value}\\
+        \midrule
+        $b_{ab}$ & 0.1125\\
+        $b_{Ab}$ & 0.1425\\
+        $b_{aB}$ & 0.1425\\
+        $b_{AB}$ & 0.1805\\
+        \bottomrule
+    \end{tabular}
+    \captionof{table}{transmission rates $\alpha=0$}
+\end{center}
+
+\noindent For the partial resistance, Hills dose-response curve is:
+\begin{center}
+    $\varepsilon_{partial}$ =$\frac{K \times C_dose \times \alpha}{C_{50}+C_dose}$
+\end{center}
+as for transmission rates, $I_AB$ is no longer fully resistant, thus:
+\begin{align}
+    b_{ab}=\beta(1-\varepsilon_1)(1-\varepsilon_2)\\
+    b_{Ab}=\beta(1-\varepsilon_{1partial})(1-\rho_1)(1-\varepsilon_2)\\
+    b_{aB}=\beta(1-\varepsilon_1)(1-\varepsilon_{2partial})(1-\rho_2)\\
+    b_{AB}=\beta(1-\varepsilon_{1partial})(1-\varepsilon_{2partial})(1-\rho_1)(1-\rho_2)
+\end{align}
+As a result, numerical solutions are as follows
+\begin{center}
+    \label{tab:transmission rates partial resistance}
+    \begin{tabular}{ll}
+        \toprule
+        \textbf{Parameter} & \textbf{value}\\
+        \midrule
+        $b_{ab}$ & 0.1125\\
+        $b_{Ab}$ & 0.1247\\
+        $b_{aB}$ & 0.1247\\
+        $b_{AB}$ & 0.1382\\
+        \bottomrule
+    \end{tabular}
+    \captionof{table}{transmission rates $\alpha=0.5$}
+\end{center}
+
+\section{Relationship between strains}
+\[
+\begin{tikzcd}[
+    row sep=9em, 
+    column sep=10em, 
+    nodes={draw, rounded corners, inner sep=5pt}
+]
+    & I_{Ab} [(1-2m)b_{Ab}I_{Ab}H] 
+      \arrow[dl, red, shift right=2, "mb_{Ab}I_{Ab}H" {sloped, above}'] 
+      \arrow[dr, blue, shift left=2, "mb_{Ab}I_{Ab}H" {sloped, above}] 
+    & \\
+    I_{ab} [(1-2m)b_{ab}I_{ab}H] 
+      \arrow[ur, blue, shift right=2, "mb_{ab}I_{ab}H"{sloped, below}'] 
+      \arrow[dr, blue, shift right=2, "mb_{ab}I_{ab}H"{sloped, below}'] 
+    & &
+    I_{AB} [(1-2m)b_{AB}I_{AB}H] 
+      \arrow[ul, red, shift left=2, "mb_{AB}I_{AB}H"{sloped, below}] 
+      \arrow[dl, red, shift left=2, "mb_{AB}I_{AB}H"{sloped, below}] 
+    \\
+    &
+    I_{aB} [(1-2m)b_{aB}I_{aB}H] 
+      \arrow[ul, red, shift right=2, "mb_{aB}I_{aB}H"{sloped, above}'] 
+      \arrow[ur, blue, shift left=2, "mb_{aB}I_{aB}H"{sloped, above}] 
+    & 
+\end{tikzcd}
+\] 
+Loci are independent and identically mutable at rate $m$, as a result every infection produces four outcomes:\\
+\begin{center}
+    $(1-m^2)$ = no mutation at either Loci\\
+    $m(1-m)$ = mutation in loci A: ab  \verb|->| Ab\\
+    $(1-m)m$ = mutation in loci B: ab \verb|->|aB\\
+    $m^2$ = both loci mutates: ab \verb|->| AB\\
+\end{center}
+It is assumed that double mutation $m^2$ is almost impossible, therefore by removing $m*2$ terms mutation probabilities simplifies to
+\begin{center}
+    $(1-m^2)$ $\approx$ $(1-2m)$\\
+    $m(1-m)$ and $(1-m)m$ $\approx$ $m$\\
+    $m^2$ = 0
+\end{center}
+$(1-m)$ term made sure that second locus wouldn't mutate along with first locus at certain mutation event, but now that we have assumed that double locus mutation is impossible, we can get rid of it.
+In this model mutation is a simple one step process. \\
+Moreover, by removing $(1-m)$ term, \textbf{Kolmogorov's probability axioms} are fulfilled. As seen in the below matrix:
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{2.0}
+\begin{tabular}{wc{2.5cm}|wc{2.5cm}|wc{2.5cm}|wc{2.5cm}|wc{2.5cm}}
+\hline
+\diagbox{\textbf{From}}{\textbf{To}} & \textbf{ab} & \textbf{Ab} & \textbf{aB} & \textbf{AB} \\ \hline
+\textbf{ab} & 1-2m & m & m & 0 \\ \hline
+\textbf{Ab} & m & 1-2m & 0 & m \\ \hline
+\textbf{aB} & m & 0 & 1-2m & m\\ \hline
+\textbf{AB} & 0 & m & m& 1-2m \\ \hline
+\end{tabular}
+\end{table}
+\newpage
+
+\noindent\textbf{axiom1}Non-negativity every probability must be 0 or greater.\\
+In the model $m\geq 0$ and $1-m\geq0$\\
+\textbf{axiom 2} Normalization sum of all possible outcomes for any given state must equal 1.\\
+In the model, in any state the row sum is : $(1-2m)+m+m+0=1$\\
+\textbf{axiom 3} For mutually exclusive events, probability of A or B is P(A)+P(B).\\
+Since single locus mutations are treated as mutually exclusive, probability of mutations is sum of individual mutations, thus $P(A)+P(B)-P(A)P(B)$ is simplified to $P(A)+P(B)$.
+In our model total probability of mutation is $m+m=2m$ 
+
+\chapter{90\% dominance of double resistant strain in the total infected compartment}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{dominance.png}
+\caption{$I_{AB}$ 90\% dominance}
+\label{fig:dominance}
+\end{figure}
+
+\noindent From the linear graphs in figure \ref{fig:dominance}, we can conclude that under no fungicide use, $I_{AB}$ will never be able to dominate. Furthermore, it must also be noted that in this scenario double resistant strain's ($I_{AB}$) transmission rate is lowered by the double fitness cost. Moreover, it's occurence in the field conditions is only due to mutation processes. While fully susceptible strain's ($I_{ab}$) transmission rate equals to baseline transmission rate. As a result, under no fungicide use it is expected that the field will be dominated by the fully susceptible strains.\\
+By comparison under partial and full resistance conditions, for $I_{AB}$ to establish dominance, it takes less than the double of time than in partial resistant conditions, furthermore emphasizing the role of fungicide pressure on the resistance development.
+
+\chapter{Disease dynamics}
+\section{Baseline scenario (No fungicide use)}
+\begin{table}[htbp]
+\centering
+\caption{Baseline scenario (No fungicide use)}
+\label{tab:baseline_no_fungicide}
+\begin{tabular}{lccccc}
+\toprule
+Time & $H$ & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ \\
+\midrule
+0.0 & 9.500e-01 & 5.000e-02 & 0.000e+00 & 0.000e+00 & 0.000e+00 \\
+81.6 & 4.990e-01 & 2.497e-01 & 6.177e-05 & 6.177e-05 & 1.462e-08 \\
+163.3 & 5.000e-01 & 2.498e-01 & 9.467e-05 & 9.467e-05 & 3.449e-08 \\
+244.9 & 5.000e-01 & 2.498e-01 & 1.165e-04 & 1.165e-04 & 5.243e-08 \\
+326.5 & 5.000e-01 & 2.497e-01 & 1.310e-04 & 1.310e-04 & 6.650e-08 \\
+408.2 & 5.000e-01 & 2.497e-01 & 1.407e-04 & 1.407e-04 & 7.682e-08 \\
+489.8 & 5.000e-01 & 2.497e-01 & 1.471e-04 & 1.471e-04 & 8.411e-08 \\
+571.4 & 5.000e-01 & 2.497e-01 & 1.513e-04 & 1.513e-04 & 8.916e-08 \\
+653.1 & 5.000e-01 & 2.497e-01 & 1.542e-04 & 1.542e-04 & 9.260e-08 \\
+734.7 & 5.000e-01 & 2.497e-01 & 1.561e-04 & 1.561e-04 & 9.493e-08 \\
+816.3 & 5.000e-01 & 2.497e-01 & 1.573e-04 & 1.573e-04 & 9.650e-08 \\
+898.0 & 5.000e-01 & 2.497e-01 & 1.581e-04 & 1.581e-04 & 9.755e-08 \\
+979.6 & 5.000e-01 & 2.497e-01 & 1.587e-04 & 1.587e-04 & 9.826e-08 \\
+1061.2 & 5.000e-01 & 2.497e-01 & 1.591e-04 & 1.591e-04 & 9.872e-08 \\
+1142.9 & 5.000e-01 & 2.497e-01 & 1.593e-04 & 1.593e-04 & 9.904e-08 \\
+1224.5 & 5.000e-01 & 2.497e-01 & 1.595e-04 & 1.595e-04 & 9.925e-08 \\
+1306.1 & 5.000e-01 & 2.497e-01 & 1.596e-04 & 1.596e-04 & 9.938e-08 \\
+1387.8 & 5.000e-01 & 2.497e-01 & 1.597e-04 & 1.597e-04 & 9.947e-08 \\
+1469.4 & 5.000e-01 & 2.497e-01 & 1.597e-04 & 1.597e-04 & 9.953e-08 \\
+1551.0 & 5.000e-01 & 2.497e-01 & 1.597e-04 & 1.597e-04 & 9.958e-08 \\
+1632.7 & 5.000e-01 & 2.497e-01 & 1.598e-04 & 1.598e-04 & 9.960e-08 \\
+1714.3 & 5.000e-01 & 2.497e-01 & 1.598e-04 & 1.598e-04 & 9.962e-08 \\
+1795.9 & 5.000e-01 & 2.497e-01 & 1.598e-04 & 1.598e-04 & 9.963e-08 \\
+1877.6 & 5.000e-01 & 2.497e-01 & 1.598e-04 & 1.598e-04 & 9.964e-08 \\
+1959.2 & 5.000e-01 & 2.497e-01 & 1.598e-04 & 1.598e-04 & 9.964e-08 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+\section{Partial resistance}
+\begin{table}[htbp]
+\centering
+\caption{Partial resistance $\alpha=0.5$}
+\label{tab:Partial_resistance}
+\begin{tabular}{lccccc}
+\toprule
+Time & $H$ & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ \\
+\midrule
+0.0 & 9.500e-01 & 5.000e-02 & 0.000e+00 & 0.000e+00 & 0.000e+00 \\
+81.6 & 8.904e-01 & 5.484e-02 & 2.342e-05 & 2.342e-05 & 1.154e-08 \\
+163.3 & 8.893e-01 & 5.523e-02 & 8.038e-05 & 8.038e-05 & 1.427e-07 \\
+244.9 & 8.887e-01 & 5.524e-02 & 2.179e-04 & 2.179e-04 & 1.124e-06 \\
+326.5 & 8.880e-01 & 5.494e-02 & 5.475e-04 & 5.475e-04 & 7.740e-06 \\
+408.2 & 8.865e-01 & 5.413e-02 & 1.327e-03 & 1.327e-03 & 5.034e-05 \\
+489.8 & 8.829e-01 & 5.218e-02 & 3.106e-03 & 3.106e-03 & 3.135e-04 \\
+571.4 & 8.743e-01 & 4.773e-02 & 6.833e-03 & 6.833e-03 & 1.820e-03 \\
+653.1 & 8.543e-01 & 3.853e-02 & 1.307e-02 & 1.307e-02 & 9.039e-03 \\
+734.7 & 8.160e-01 & 2.384e-02 & 1.859e-02 & 1.859e-02 & 3.234e-02 \\
+816.3 & 7.723e-01 & 9.920e-03 & 1.704e-02 & 1.704e-02 & 7.105e-02 \\
+898.0 & 7.450e-01 & 2.957e-03 & 1.080e-02 & 1.080e-02 & 1.035e-01 \\
+979.6 & 7.328e-01 & 7.419e-04 & 5.651e-03 & 5.651e-03 & 1.218e-01 \\
+1061.2 & 7.277e-01 & 1.731e-04 & 2.735e-03 & 2.735e-03 & 1.306e-01 \\
+1142.9 & 7.254e-01 & 3.932e-05 & 1.290e-03 & 1.290e-03 & 1.347e-01 \\
+1224.5 & 7.244e-01 & 8.917e-06 & 6.127e-04 & 6.127e-04 & 1.366e-01 \\
+1306.1 & 7.240e-01 & 2.064e-06 & 3.022e-04 & 3.022e-04 & 1.374e-01 \\
+1387.8 & 7.238e-01 & 5.050e-07 & 1.612e-04 & 1.612e-04 & 1.378e-01 \\
+1469.4 & 7.237e-01 & 1.399e-07 & 9.749e-05 & 9.749e-05 & 1.379e-01 \\
+1551.0 & 7.237e-01 & 4.975e-08 & 6.877e-05 & 6.877e-05 & 1.380e-01 \\
+1632.7 & 7.237e-01 & 2.556e-08 & 5.582e-05 & 5.582e-05 & 1.381e-01 \\
+1714.3 & 7.237e-01 & 1.819e-08 & 4.999e-05 & 4.999e-05 & 1.381e-01 \\
+1795.9 & 7.237e-01 & 1.571e-08 & 4.736e-05 & 4.736e-05 & 1.381e-01 \\
+1877.6 & 7.237e-01 & 1.475e-08 & 4.618e-05 & 4.618e-05 & 1.381e-01 \\
+1959.2 & 7.237e-01 & 1.435e-08 & 4.565e-05 & 4.565e-05 & 1.381e-01 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+\section{Full resistance}
+\begin{table}[htbp]
+\centering
+\caption{Full resistance $\alpha=0$}
+\label{tab:Full_resistance}
+\begin{tabular}{lccccc}
+\toprule
+Time & $H$ & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ \\
+\midrule
+0.0 & 9.500e-01 & 5.000e-02 & 0.000e+00 & 0.000e+00 & 0.000e+00 \\
+81.6 & 8.903e-01 & 5.483e-02 & 5.289e-05 & 5.289e-05 & 8.898e-08 \\
+163.3 & 8.881e-01 & 5.500e-02 & 5.200e-04 & 5.200e-04 & 1.419e-05 \\
+244.9 & 8.754e-01 & 5.259e-02 & 4.381e-03 & 4.381e-03 & 1.851e-03 \\
+326.5 & 7.073e-01 & 2.797e-02 & 1.739e-02 & 1.739e-02 & 9.343e-02 \\
+408.2 & 5.652e-01 & 2.105e-03 & 5.815e-03 & 5.815e-03 & 2.045e-01 \\
+489.8 & 5.557e-01 & 1.020e-04 & 1.132e-03 & 1.132e-03 & 2.199e-01 \\
+571.4 & 5.543e-01 & 4.790e-06 & 2.326e-04 & 2.326e-04 & 2.224e-01 \\
+653.1 & 5.541e-01 & 2.336e-07 & 6.956e-05 & 6.956e-05 & 2.228e-01 \\
+734.7 & 5.541e-01 & 1.681e-08 & 4.028e-05 & 4.028e-05 & 2.229e-01 \\
+816.3 & 5.541e-01 & 5.331e-09 & 3.503e-05 & 3.503e-05 & 2.229e-01 \\
+898.0 & 5.541e-01 & 4.616e-09 & 3.409e-05 & 3.409e-05 & 2.229e-01 \\
+979.6 & 5.541e-01 & 4.555e-09 & 3.392e-05 & 3.392e-05 & 2.229e-01 \\
+1061.2 & 5.541e-01 & 4.546e-09 & 3.389e-05 & 3.389e-05 & 2.229e-01 \\
+1142.9 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1224.5 & 5.541e-01 & 4.544e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1306.1 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1387.8 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1469.4 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1551.0 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1632.7 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1714.3 & 5.541e-01 & 4.544e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1795.9 & 5.541e-01 & 4.544e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1877.6 & 5.541e-01 & 4.544e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+1959.2 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\newpage
+\section{Disease dynamics linear graph}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.7\textwidth]{disease_dynamics.png}
+\caption{Disease dynamics}
+\label{fig:disease_dynamics}
+\end{figure}
+
+\section{conclusion}
+Tables \ref{tab:baseline_no_fungicide},\ref{tab:Partial_resistance}, \ref{tab:Full_resistance} and figure \ref{fig:disease_dynamics} show general outcome of disease dynamics by 4 pathogen strains with different genotypes $I_{ab}$, $I_{Ab}$, $I_{aB}$, $I_{AB}$ in 2000 days simulation.\\
+Since front and back mutation rates, fitness costs and resistance degrees to either fungicide are same, $I_{Ab}$, $I_{aB}$ strains behaviours are identical. \\
+Interestingly, in both partial resistance and full resistance scenarios, $I_{Ab}$ strain's transmission is higher than other genotypes and thus, it's dominance can be observed. In fully resistant scenario it was predictable. However, partial resistance is also an interesting case. Even though $I_{AB}$ experienced double fitness costs, because it was able to partially escape from both fungicides, 
+it was much more viable than $I_{Ab}$, $I_{aB}$ with only one fitness cost. This once again emphasizes that, if fitness costs are not higher than the resistance development rate governed by fungicide application pressure, resistance development can only be delayed. As shown in the figure \ref{fig:dominance}, where at partial resistance $I_{AB}$ overtook at day 980, compared to day 408 at full resistance \\
+While mutation rate, because of it's relatively small amount and symmetry, didn't have much impact on the disease dynamics, in real life it is assymetric, where forward mutation rates are much common, than back mutations. This only further accelerates "irreversible" resistance development process.\\
+Overall, in field conditions where mutation alleles are present, fungicide mixtures can only delay the resistance development process. As a result resistant monitoring must be prioritized, before treatment failure becomes inevitable. 
+
+\end{document}
