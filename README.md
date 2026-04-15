@@ -12,7 +12,7 @@ latex_table = df_to_export.style.hide(axis="index").format(
     subset=["$H$", "$I_{ab}$", "$I_{Ab}$", "$I_{aB}$", "$I_{AB}$"], 
     formatter="{:.3e}"
 ).to_latex(
-    hrules=True, # This replaces 'booktabs=True'
+    hrules=True, 
     caption="Baseline scenario (No fungicide use)",
     label="tab:baseline_no_fungicide",
     position="htbp",
