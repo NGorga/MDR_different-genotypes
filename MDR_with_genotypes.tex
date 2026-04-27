@@ -23,6 +23,7 @@
 \usepackage{setspace}
 \onehalfspacing
 
+
 \begin{document}
 
 \title{High risk fungicides in mixtures:\\
@@ -172,20 +173,20 @@ As a result, numerical solutions are as follows
     column sep=10em, 
     nodes={draw, rounded corners, inner sep=5pt}
 ]
-    & I_{Ab} [(1-2m)b_{Ab}I_{Ab}H] 
+    & I_{Ab} 
       \arrow[dl, red, shift right=2, "mb_{Ab}I_{Ab}H" {sloped, above}'] 
       \arrow[dr, blue, shift left=2, "mb_{Ab}I_{Ab}H" {sloped, above}] 
     & \\
-    I_{ab} [(1-2m)b_{ab}I_{ab}H] 
+    I_{ab} 
       \arrow[ur, blue, shift right=2, "mb_{ab}I_{ab}H"{sloped, below}'] 
       \arrow[dr, blue, shift right=2, "mb_{ab}I_{ab}H"{sloped, below}'] 
     & &
-    I_{AB} [(1-2m)b_{AB}I_{AB}H] 
+    I_{AB} 
       \arrow[ul, red, shift left=2, "mb_{AB}I_{AB}H"{sloped, below}] 
       \arrow[dl, red, shift left=2, "mb_{AB}I_{AB}H"{sloped, below}] 
     \\
     &
-    I_{aB} [(1-2m)b_{aB}I_{aB}H] 
+    I_{aB}
       \arrow[ul, red, shift right=2, "mb_{aB}I_{aB}H"{sloped, above}'] 
       \arrow[ur, blue, shift left=2, "mb_{aB}I_{aB}H"{sloped, above}] 
     & 
@@ -230,17 +231,17 @@ In the model, in any state the row sum is : $(1-2m)+m+m+0=1$\\
 Since single locus mutations are treated as mutually exclusive, probability of mutations is sum of individual mutations, thus $P(A)+P(B)-P(A)P(B)$ is simplified to $P(A)+P(B)$.
 In our model total probability of mutation is $m+m=2m$ 
 
-\chapter{90\% dominance of double resistant strain in the total infected compartment}
+\chapter{90\% frequency of double resistant strain in the total infected compartment}
 
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{dominance.png}
-\caption{$I_{AB}$ 90\% dominance}
+\includegraphics[width=\textwidth]{dominance.png}
+\caption{$I_{AB}$ 90\% frequency time}
 \label{fig:dominance}
 \end{figure}
 
-\noindent From the linear graphs in figure \ref{fig:dominance}, we can conclude that under no fungicide use, $I_{AB}$ will never be able to dominate. Furthermore, it must also be noted that in this scenario double resistant strain's ($I_{AB}$) transmission rate is lowered by the double fitness cost. Moreover, it's occurence in the field conditions is only due to mutation processes. While fully susceptible strain's ($I_{ab}$) transmission rate equals to baseline transmission rate. As a result, under no fungicide use it is expected that the field will be dominated by the fully susceptible strains.\\
-By comparison under partial and full resistance conditions, for $I_{AB}$ to establish dominance, it takes less than the double of time than in partial resistant conditions, furthermore emphasizing the role of fungicide pressure on the resistance development.
+\noindent From the linear graphs in figure \ref{fig:dominance}, we can conclude that under no fungicide use, $I_{AB}$ will never be able to reach $90\%$ frequency in infected compartment. Furthermore, it must also be noted that in this scenario double resistant strain's ($I_{AB}$) transmission rate is lowered by the double fitness cost. Moreover, it's occurence in the field conditions is only due to mutation processes. While fully susceptible strain's ($I_{ab}$) transmission rate equals to baseline transmission rate. As a result, under no fungicide use it is expected that the field will be mostly infected by the fully susceptible strains.\\
+By comparison under partial and full resistance conditions, for $I_{AB}$ to reach $90\%$ frequency of infected compartment, it takes less than the double of time than in partial resistant conditions, furthermore emphasizing the role of fungicide pressure on the resistance development.
 
 \chapter{Disease dynamics}
 \section{Baseline scenario (No fungicide use)}
@@ -363,7 +364,7 @@ Time & $H$ & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ \\
 \section{Disease dynamics linear graph}
 \begin{figure}[htbp]
 \centering
-\includegraphics[width=0.7\textwidth]{disease_dynamics.png}
+\includegraphics[width=\textwidth]{dynamics.png}
 \caption{Disease dynamics}
 \label{fig:disease_dynamics}
 \end{figure}
@@ -371,9 +372,221 @@ Time & $H$ & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ \\
 \section{conclusion}
 Tables \ref{tab:baseline_no_fungicide},\ref{tab:Partial_resistance}, \ref{tab:Full_resistance} and figure \ref{fig:disease_dynamics} show general outcome of disease dynamics by 4 pathogen strains with different genotypes $I_{ab}$, $I_{Ab}$, $I_{aB}$, $I_{AB}$ in 2000 days simulation.\\
 Since front and back mutation rates, fitness costs and resistance degrees to either fungicide are same, $I_{Ab}$, $I_{aB}$ strains behaviours are identical. \\
-Interestingly, in both partial resistance and full resistance scenarios, $I_{Ab}$ strain's transmission is higher than other genotypes and thus, it's dominance can be observed. In fully resistant scenario it was predictable. However, partial resistance is also an interesting case. Even though $I_{AB}$ experienced double fitness costs, because it was able to partially escape from both fungicides, 
+Interestingly, in both partial resistance and full resistance scenarios, $I_{Ab}$ strain's transmission is higher than other genotypes and thus, it's higher frequency can be observed. In fully resistant scenario it was predictable. However, partial resistance is also an interesting case. Even though $I_{AB}$ experienced double fitness costs, because it was able to partially escape from both fungicides, 
 it was much more viable than $I_{Ab}$, $I_{aB}$ with only one fitness cost. This once again emphasizes that, if fitness costs are not higher than the resistance development rate governed by fungicide application pressure, resistance development can only be delayed. As shown in the figure \ref{fig:dominance}, where at partial resistance $I_{AB}$ overtook at day 980, compared to day 408 at full resistance \\
 While mutation rate, because of it's relatively small amount and symmetry, didn't have much impact on the disease dynamics, in real life it is assymetric, where forward mutation rates are much common, than back mutations. This only further accelerates "irreversible" resistance development process.\\
 Overall, in field conditions where mutation alleles are present, fungicide mixtures can only delay the resistance development process. As a result resistant monitoring must be prioritized, before treatment failure becomes inevitable. 
+
+\chapter{Parameter range simulations}
+\section{strain dynamics under fungicide dose variation}
+
+\subsection{fungicide dose variation table and time to 90\% $I_{AB}$ frequency}
+\vspace*{\fill}
+\begin{table}[htbp]
+\centering
+\caption{fungicide dose variation table and time to 90\% $I_{AB}$ frequency}
+\label{tab:dosage_summary}
+\begin{tabular}{lcccccc}
+\toprule
+Dosage & H & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ & $t_{90}$ \\
+\midrule
+0.00 & 5.000e-01 & 2.497e-01 & 1.598e-04 & 1.598e-04 & 9.965e-08 & --- \\
+0.25 & 5.605e-01 & 2.144e-01 & 2.649e-03 & 2.649e-03 & 3.305e-05 & --- \\
+0.50 & 5.553e-01 & 1.593e-04 & 4.434e-03 & 4.434e-03 & 2.133e-01 & 1818.91 \\
+0.75 & 5.541e-01 & 2.777e-08 & 8.031e-05 & 8.031e-05 & 2.228e-01 & 1041.52 \\
+1.00 & 5.541e-01 & 1.415e-08 & 5.808e-05 & 5.808e-05 & 2.229e-01 & 749.37 \\
+1.25 & 5.541e-01 & 9.349e-09 & 4.761e-05 & 4.761e-05 & 2.229e-01 & 595.30 \\
+1.50 & 5.541e-01 & 6.911e-09 & 4.125e-05 & 4.125e-05 & 2.229e-01 & 500.25 \\
+1.75 & 5.541e-01 & 5.475e-09 & 3.696e-05 & 3.696e-05 & 2.229e-01 & 435.22 \\
+2.00 & 5.541e-01 & 4.545e-09 & 3.388e-05 & 3.388e-05 & 2.229e-01 & 388.19 \\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace*{\fill}
+
+\newpage
+\subsection{time to $90\%$ $I_{AB}$ frequency under fungicide dose variation graph}
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{fungicidedoset90.png}
+\caption{time to $90\%$ $I_{AB}$ frequency}
+\label{fig:doset90}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\subsection{disease dynamics under fungicide dose variation graph }
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=\textwidth]{STRfungicidedoset90.png}
+\caption{Strain dynamics under fungicide dose variation }
+\label{fig:doseSTR}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\section{strain dynamics under fitness cost variation}
+\subsection{fitness cost variation table and time to 90\% $I_{AB}$ frequency}
+\vspace*{\fill}
+\begin{table}[htbp]
+\centering
+\caption{fitness cost variation table and time to 90\% $I_{AB}$ frequency}
+\label{tab:fitness_summary}
+\begin{tabular}{lcccccc}
+\toprule
+fitness cost & H & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ & $t_{90}$ \\
+\midrule
+0.00 & 5.000e-01 & 3.510e-09 & 3.199e-05 & 3.199e-05 & 2.499e-01 & 304.15 \\
+0.03 & 5.285e-01 & 4.009e-09 & 3.294e-05 & 3.294e-05 & 2.357e-01 & 345.17 \\
+0.05 & 5.594e-01 & 4.675e-09 & 3.409e-05 & 3.409e-05 & 2.202e-01 & 398.20 \\
+0.08 & 5.931e-01 & 5.586e-09 & 3.553e-05 & 3.553e-05 & 2.034e-01 & 466.23 \\
+0.11 & 6.300e-01 & 6.921e-09 & 3.742e-05 & 3.742e-05 & 1.849e-01 & 560.28 \\
+0.14 & 6.704e-01 & 9.059e-09 & 4.006e-05 & 4.006e-05 & 1.647e-01 & 696.35 \\
+0.16 & 7.148e-01 & 1.300e-08 & 4.426e-05 & 4.426e-05 & 1.425e-01 & 912.46 \\
+0.19 & 7.639e-01 & 1.010e-07 & 9.254e-05 & 9.254e-05 & 1.179e-01 & 1315.66 \\
+0.22 & 8.334e-01 & 3.724e-03 & 1.216e-02 & 1.216e-02 & 5.538e-02 & --- \\
+0.25 & 8.888e-01 & 5.426e-02 & 6.768e-04 & 6.768e-04 & 8.529e-06 & --- \\
+0.27 & 8.889e-01 & 5.541e-02 & 5.838e-05 & 5.838e-05 & 6.056e-08 & --- \\
+0.30 & 8.889e-01 & 5.547e-02 & 2.663e-05 & 2.663e-05 & 1.234e-08 & --- \\
+\bottomrule
+\end{tabular}
+\end{table}
+\vspace*{\fill}
+
+\newpage
+\subsection{time to $90\%$ $I_{AB}$ frequency under fitness cost variation graph}
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{fitnesscost90.png}
+\caption{Time to 90\% $I_{AB}$ frequency under fitness cost variation}
+\label{fig:costt90}
+\end{figure}
+\vspace*{\fill}
+
+\newpage 
+\subsection{disease dynamics under fitness cost variation graph }
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{STRfitnesscost.png}
+\caption{Strain dynamics under fitness cost variation}
+\label{fig:costSTR}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\section{reproductive number $R_{0}$ (strain specific) of each strain under varying baseline transmission rates}
+\subsection{baseline transmission rate variation table}
+\vspace*{\fill}
+\begin{table}[htbp]
+\centering
+\caption{Baseline transmission rate variation and time to 90\% $I_{AB}$ frequency}
+\label{tab:transmission_summary}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{ccccccccccc}
+\toprule
+Transmission rate & H & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ & $R_{0,ab}$ & $R_{0,Ab}$ & $R_{0,aB}$ & $R_{0,AB}$ & $t_{90}$ \\
+\midrule
+0.010 & 1.000 & 0 & 0 & 0 & 0 & 0.056 & 0.071 & 0.071 & 0.090 & --- \\
+0.034 & 1.000 & 0 & 0 & 0 & 0 & 0.190 & 0.240 & 0.240 & 0.305 & --- \\
+0.058 & 1.000 & 0 & 0 & 0 & 0 & 0.323 & 0.410 & 0.410 & 0.519 & --- \\
+0.081 & 1.000 & 0 & 0 & 0 & 0 & 0.457 & 0.579 & 0.579 & 0.733 & --- \\
+0.105 & 1.000 & 0 & 0 & 0 & 0 & 0.591 & 0.748 & 0.748 & 0.948 & --- \\
+0.129 & 0.861 & 1.42e-09 & 1.06e-05 & 1.06e-05 & 6.96e-02 & 0.724 & 0.917 & 0.917 & 1.162 & 505.25 \\
+0.153 & 0.727 & 2.79e-09 & 2.08e-05 & 2.08e-05 & 1.37e-01 & 0.858 & 1.087 & 1.087 & 1.376 & 430.22 \\
+0.176 & 0.629 & 3.78e-09 & 2.82e-05 & 2.82e-05 & 1.86e-01 & 0.991 & 1.256 & 1.256 & 1.591 & 391.20 \\
+0.200 & 0.554 & 4.54e-09 & 3.39e-05 & 3.39e-05 & 2.23e-01 & 1.125 & 1.425 & 1.425 & 1.805 & 388.19 \\
+\bottomrule
+\end{tabular}}
+\end{table}
+\vspace*{\fill}
+
+\newpage
+\subsection{time to 90\% $I_{AB}$ frequency under baseline transmission rate variation graph}
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{Transmissiont90.png}
+\caption{Time to 90\% $I_{AB}$ frequency under baseline transmission rate variation}
+\label{fig:transmissiont90}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\subsection{disease dynamics under baseline transmission rate variation graph }
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{STRtransmission.png}
+\caption{Strain dynamics under baseline transmission rate variation}
+\label{fig:transmissionSTR}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\section{removal rate variation table and time to 90\% $I_{AB}$ frequency}
+\subsection{removal rate variation table}
+\vspace*{\fill}
+\begin{table}[htbp]
+\caption{removal rate variation table and time to 90\% $I_{AB}$ frequency}
+\label{tab:removal_summary}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{lcccccccccc}
+\toprule
+removal rate & H & $I_{ab}$ & $I_{Ab}$ & $I_{aB}$ & $I_{AB}$ & $R_{0,ab}$ & $R_{0,Ab}$ & $R_{0,aB}$ & $R_{0,AB}$ & $t_{90}$ \\
+\midrule
+0.010 & 8.631e-02 & 7.459e-01 & 3.803e-02 & 3.803e-02 & 8.628e-03 & 11.250 & 14.250 & 14.250 & 18.050 & --- \\
+0.027 & 1.512e-01 & 2.518e-05 & 9.176e-04 & 9.176e-04 & 6.651e-01 & 4.125 & 5.225 & 5.225 & 6.618 & 1380.69 \\
+0.045 & 2.468e-01 & 1.081e-08 & 7.965e-05 & 7.965e-05 & 5.209e-01 & 2.526 & 3.199 & 3.199 & 4.052 & 851.43 \\
+0.062 & 3.425e-01 & 8.282e-09 & 6.175e-05 & 6.175e-05 & 4.062e-01 & 1.820 & 2.305 & 2.305 & 2.920 & 617.31 \\
+0.079 & 4.382e-01 & 6.394e-09 & 4.767e-05 & 4.767e-05 & 3.136e-01 & 1.422 & 1.802 & 1.802 & 2.282 & 486.24 \\
+0.096 & 5.339e-01 & 4.838e-09 & 3.607e-05 & 3.607e-05 & 2.373e-01 & 1.167 & 1.479 & 1.479 & 1.873 & 402.20 \\
+0.114 & 6.296e-01 & 3.534e-09 & 2.635e-05 & 2.635e-05 & 1.733e-01 & 0.990 & 1.254 & 1.254 & 1.588 & 345.17 \\
+0.131 & 7.253e-01 & 2.425e-09 & 1.808e-05 & 1.808e-05 & 1.189e-01 & 0.859 & 1.089 & 1.089 & 1.379 & 328.16 \\
+0.148 & 8.210e-01 & 1.470e-09 & 1.096e-05 & 1.096e-05 & 7.210e-02 & 0.759 & 0.962 & 0.962 & 1.218 & 326.16 \\
+0.165 & 9.167e-01 & 6.396e-10 & 4.768e-06 & 4.768e-06 & 3.137e-02 & 0.680 & 0.861 & 0.861 & 1.091 & 326.16 \\
+0.183 & 1.000e+00 & 0.000e+00 & 0.000e+00 & 0.000e+00 & 5.464e-12 & 0.616 & 0.780 & 0.780 & 0.988 & --- \\
+0.200 & 1.000e+00 & 0.000e+00 & 0.000e+00 & 0.000e+00 & 1.274e-16 & 0.562 & 0.713 & 0.713 & 0.902 & --- \\
+\bottomrule
+\end{tabular}}
+\end{table}
+\vspace*{\fill}
+
+\newpage
+\subsection{time to 90\% $I_{AB}$ frequency under removal rate variation graph}
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{Removalt90.png}
+\caption{Time to 90\% $I_{AB}$ frequency under removal rate variation}
+\label{fig:Removalt90}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\subsection{disease dynamics under removal rate variation graph }
+\vspace*{\fill}
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.9\textwidth]{STRremoval.png}
+\caption{strain dynamics under removal rate variation}
+\label{fig:STRRemoval}
+\end{figure}
+\vspace*{\fill}
+
+\newpage
+\section{conclusion}
+
+This chapter examined how four key parameters: fungicide dose, fitness cost, transmission rate and removal rate, shape disease outcome. \\
+Fungicide dose, only human controlled parameter in this model, produced predictable results. Since, competitive advantage of  double resistant $I_{AB}$ strain depends on it's resistance factor, at zero or very low fungicide concentration simulation it was unable to reach $90\%$ frequency within simulation timeline, as shown in figure \ref{fig:doset90} and table \ref{tab:dosage_summary}. Given that at the initial stage $I_{Ab}$, $I_{aB}$ and $I_{AB}$ strains were absent, at low fungicide dosages only $I_{ab}$ was able to become the most frequent pathogen strain, as seen in figure \ref{fig:doseSTR}.
+This is biologically plausible, since under no fungicide pressure, $I_{ab}$ remains competitive, because of no fitness cost. While according to this model $I_{AB}$'s emergence is a two step mutation process, $I_{ab}$ $\rightarrow$ $I_{Ab}$ or $I_{aB}$ $\rightarrow$ $I_{AB}$, which is not only unpredictable and but also slow process, when no resistance advantage exists. \\
+Fitness cost, which in previous chapters gave $I_{AB}$ competitive advantage, over other strains, can act as a double edged sword depending on its magnitude. At relatively low fitness costs, $I_{AB}$ pays almost no biological penalty for carrying both resistance alleles and thrives over other strains under fungicide pressure. However at higher fitness cost it's transmission rate $b_{AB}=\beta(1-\rho_1)(1-\rho_2)$ is substantially reduced and struggles to accumulate, as seen in table \ref{tab:fitness_summary} and figures \ref{fig:costt90}, \ref{fig:costSTR}. We can conclude that there exists a threhsold, beyond which none of the strains have competitive advantage. 
+This furthermore emphasizes detrimental role of fitness cost in determining disease outcome.\\
+$R_{0}$ which determines whether disease spreads or not in the susceptible population, in this model depends on the ratio between $\beta$ and $\mu$ as seen in the formula: \[R_{0}=\frac{\beta * K}{\mu}\] From the table \ref{tab:transmission_summary} and figures \ref{fig:transmissiont90}, \ref{fig:transmissionSTR}, we can see that as transmission rate increases, less time is required for $I_{AB}$ strain to reach $90\%$ frequency in infected compartment. Interestingly, near threshold, system took much longer to reach equilibrium, a critical slowing down at bifurication point. This suggests that even small reduction of transmission rates could be crucial for disease management.\\
+Removal rate $\mu$ mirrors transmission rate $\beta$. Lower $\mu$ extends infectious period, yet this does not mean that $I_{AB}$ will reach $90\%$ frequency in infected compartment as seen in table \ref{tab:removal_summary} and figures \ref{fig:Removalt90}, \ref{fig:STRRemoval}. At very low removal rates, infection persists for a longer period, but since $I_{ab}$ is the initially more frequent strain, it establishes itself over other strains, before $I_{AB}$ can accumulate through mutation. However, as removal rate increases, so does $I_{AB}$ strain. Counterintuitively, at higher removal rates, the double resistance strain outcompetes the sensitive in shorter period of time. This could be attributed to the fact that at higher removal rate, infection cycle is shorter, given $I_{AB}$'s higher transmission rate over other strains, it is able to accumulate faster as infection cycle becomes shorter and its quantity increases.
+Hovewer, as removal rate reaches a critical point, no selective advantage is sufficient to overcome $R_{0} <1$. 
 
 \end{document}
